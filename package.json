@@ -1,12 +1,19 @@
 {
-  "name": "openshift-cartridge-nodejs-template",
-  "version": "1.0.1",
-  "description": "Custom Node.js cartridge for OpenShift - sample application",
-  "private": true,
-  "main": "start.js",
+  "name": "feedbooksbot",
+  "version": "1.0.0",
+  "description": "Telegram bot that brings full feedbooks public domain catalog into inline chats.",
+  "main": "eBookBot.js",
+  "repository": "",
+  "author": "JL Vaquero <jlvaquerocuevas@gmail.com>",
+  "license": "MIT",
   "scripts": {
-    "start": "node --use_strict start.js"
+    "start": "node eBookBot.js"
   },
-  "author": "Ionut-Cristian Florescu <ionut.florescu@gmail.com>",
-  "license": "ISC"
+  "dependencies": {
+    "ioredis": "^1.15.1",
+    "node-telegram-bot-api": "^0.21.1",
+    "opds-feed-parser": "0.0.9",
+    "request": "^2.72.0",
+    "sprintf-js": "^1.0.3"
+  }
 }
