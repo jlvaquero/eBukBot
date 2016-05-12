@@ -17,7 +17,7 @@ bot.setWebHook(externalUrl + ':443/bot' + token);
 var Redis = require('ioredis');
 //var redis = new Redis(6379, process.env.IP);
 var redis = new Redis({
-  password: process.env.REDIS_PASSWORD;
+  password: process.env.REDIS_PASSWORD
 });
 
 const search_url_offset_template = 'http://www.feedbooks.com/books/search.atom?%s';
