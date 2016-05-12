@@ -146,7 +146,7 @@ bot.onText(/\Deutsch/, function(msg, match) {
  });
  redis.get(fromId + ':query').then((res) => {
   backInline_keyboard.inline_keyboard[0][0].switch_inline_query = res;
-  bot.sendMessage(fromId, 'Tap this button', {
+  bot.sendMessage(fromId, 'Tap this' + '\u{1F447}' + 'button', {
    reply_markup: backInline_keyboard
   });
  });
