@@ -17,8 +17,12 @@ bot.setWebHook(externalUrl + ':443/bot' + token);
 var Redis = require('ioredis');
 //var redis = new Redis(6379, process.env.IP);
 var redis = new Redis({
-  password: process.env.REDIS_PASSWORD
+ port: process.env.OPENSHIFT_REDIS_DB_PORT,          // Redis port
+  host: process.env.OPENSHIFT_REDIS_DB_HOST,   // Redis host
+   password: process.env.OPENSHIFT_REDIS_DB_PASSWORD
 });
+
+ 
 
 const search_url_offset_template = 'http://www.feedbooks.com/books/search.atom?%s';
 const search_url_template = 'http://www.feedbooks.com/books/search.atom?query=%s&lang=%s';
