@@ -176,19 +176,19 @@ bot.onText(/Go to Inline mode/, function(msg, match) {
 
 bot.onText(/\/help/, function(msg, match) {
  var fromId = msg.from.id;
- bot.sendMessage(fromId, 'Of course. I will explain your options.\r\n\u{1F4DA} Select eBook catalog language - Select the language for the eBook you are looking for.\r\n\u{1F50D} Go to Inline mode - Select or return to a chat and use my Inline mode.\r\n\u{2753} Help me! - I will explain your options.');
+ bot.sendMessage(fromId, 'Of course. I am going to explain avaiable options to you.\r\n\u{1F4DA} Select eBook catalog language - Select the language for the eBook you are looking for.\r\n\u{1F50D} Go to Inline mode - Select or return to a chat and use my Inline mode.\r\n\u{2753} Help me! - I will explain avaiable options.\r\n\r\nWhat do you wish to do?');
 });
 
 bot.onText(/Help me!/, function(msg, match) {
  var fromId = msg.from.id;
- bot.sendMessage(fromId, 'Of course. I will explain your options.\r\n\u{1F4DA} Select eBook catalog language - Select the language for the eBook you are looking for.\r\n\u{1F50D} Go to Inline mode - Select or return to a chat and use my Inline mode.\r\n\u{2753} Help me! - I will explain your options.');
+ bot.sendMessage(fromId, 'Of course. I am going to explain avaiable options to you.\r\n\u{1F4DA} Select eBook catalog language - Select the language for the eBook you are looking for.\r\n\u{1F50D} Go to Inline mode - Select or return to a chat and use my Inline mode.\r\n\u{2753} Help me! - I will explain your options.\r\n\r\nWhat do you wish to do?');
 });
 
 bot.onText(/Deutsch/, function(msg, match) {
  var fromId = msg.from.id;
  //store lang preference and msg.from.id in redis
  redis.set(fromId, de);
- bot.sendMessage(fromId, 'Good! I will search eBooks in Deutsch.', {
+ bot.sendMessage(fromId, 'Ok. I will search eBooks in Deutsch. Anything else?', {
   reply_markup: optionsReplyKeyboard
  });
  redis.get(fromId + ':query').then((res) => {
@@ -203,7 +203,7 @@ bot.onText(/English/, function(msg, match) {
  var fromId = msg.from.id;
  //store lang preference and chat.id in redis
  redis.set(fromId, en);
- bot.sendMessage(fromId, 'Good! I will search eBooks in English.', {
+ bot.sendMessage(fromId, 'Ok. I will search eBooks in English. Anything else?', {
   reply_markup: optionsReplyKeyboard
  });
  redis.get(fromId + ':query').then((res) => {
@@ -219,7 +219,7 @@ bot.onText(/Español/, function(msg, match) {
  var fromId = msg.from.id;
  //store lang preference and chat.id in redis
  redis.set(fromId, es);
- bot.sendMessage(fromId, 'Good! I will search eBooks in Español.', {
+ bot.sendMessage(fromId, 'Ok. I will search eBooks in Español. Anything else?', {
   reply_markup: optionsReplyKeyboard
  });
  redis.get(fromId + ':query').then((res) => {
@@ -235,7 +235,7 @@ bot.onText(/Français/, function(msg, match) {
  var fromId = msg.from.id;
  //store lang preference and chat.id in redis
  redis.set(fromId, fr);
- bot.sendMessage(fromId, 'Good! I will search eBooks in Français.', {
+ bot.sendMessage(fromId, 'Ok. I will search eBooks in Français.  Anything else?', {
   reply_markup: optionsReplyKeyboard
  });
  redis.get(fromId + ':query').then((res) => {
@@ -251,7 +251,7 @@ bot.onText(/Italiano/, function(msg, match) {
  var fromId = msg.from.id;
  //store lang preference and chat.id in redis
  redis.set(fromId, it);
- bot.sendMessage(fromId, 'Good! I will search eBooks in Italiano.', {
+ bot.sendMessage(fromId, 'Ok. I will search eBooks in Italiano.  Anything else?', {
   reply_markup: optionsReplyKeyboard
  });
  redis.get(fromId + ':query').then((res) => {
