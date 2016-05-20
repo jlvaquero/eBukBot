@@ -51,7 +51,7 @@ var langReplyKeyboardMarkup = [
 
 langReplyKeyboardMarkup[0][0] = '\u{1F1E9}\u{1F1EA} Deutsch';
 langReplyKeyboardMarkup[0][1] = '\u{1F1EC}\u{1F1E7} English';
-langReplyKeyboardMarkup[1][0] = '\u{1F1EA}\u{1F1E6} Español';
+langReplyKeyboardMarkup[1][0] = '\u{1F1EA}\u{1F1F8} Español';
 langReplyKeyboardMarkup[1][1] = '\u{1F1EB}\u{1F1F7} Français';
 langReplyKeyboardMarkup[2][0] = '\u{1F1EE}\u{1F1F9} Italiano';
 langReplyKeyboardMarkup[2][1] = '\u{274E} Cancel';
