@@ -91,8 +91,6 @@ var backInline_keyboard = {
  inline_keyboard: backInline_keyboardMarkup
 };
 
-var comeFromInline= false;
-
 bot.on('inline_query', function(msg) {
 
  redis.get(msg.from.id).then(function sendResult(lang) {
@@ -120,8 +118,8 @@ bot.on('inline_query', function(msg) {
 });
 
 bot.onText(/\/start$/, function(msg, match) {
-	var comeFromInline= false;
  var fromId = msg.from.id;
+ redis.set(fromId + ':comeFromInline', 'false');
  redis.set(fromId + ':query', '');
  bot.sendMessage(fromId, 'Hello ' + msg.from.first_name + '. What do you wish to do?', {
   reply_markup: optionsReplyKeyboard
@@ -134,7 +132,7 @@ bot.onText(/\/start (.+)/, function(msg, match) {
  var query = match[1].split('#')[1];
 
  if (command == 'changelang') {
- comeFromInline = true;
+ redis.set(fromId + ':comeFromInline', 'true');
   redis.set(fromId + ':query', query);
   bot.sendMessage(fromId, 'Ok, Tell me in which language do you want to search eBooks, please.', {
    reply_markup: langReplyKeyboard
@@ -195,16 +193,18 @@ bot.onText(/Deutsch/, function(msg, match) {
  bot.sendMessage(fromId, 'Ok. I will search eBooks in Deutsch. Anything else?', {
   reply_markup: optionsReplyKeyboard
  });
- if (comeFromInline){
- redis.get(fromId + ':query').then((res) => {
-  backInline_keyboard.inline_keyboard[0][0].switch_inline_query = res;
-  bot.sendMessage(fromId, 'Tap this' + '\u{1F447}' + 'button for Inline mode.', {
-   reply_markup: backInline_keyboard
-  });
+ redis.get(fromId + ':comeFromInline').then((comeFromInline) => {
+   if (comeFromInline) {
+    redis.get(fromId + ':query').then((res) => {
+     backInline_keyboard.inline_keyboard[0][0].switch_inline_query = res;
+     bot.sendMessage(fromId, 'Tap this' + '\u{1F447}' + 'button for Inline mode.', {
+      reply_markup: backInline_keyboard
+     });
+     redis.set(fromId + ':query', '');
+    });
+    redis.set(fromId + ':comeFromInline', 'false');
+   }
  });
- redis.set(fromId + ':query', '');
- comeFromInline = false;
-}
 });
 
 bot.onText(/English/, function(msg, match) {
