@@ -194,7 +194,7 @@ bot.onText(/Deutsch/, function(msg, match) {
   reply_markup: optionsReplyKeyboard
  });
  redis.get(fromId + ':comeFromInline').then((comeFromInline) => {
-   if (comeFromInline) {
+   if (comeFromInline == 'true') {
     redis.get(fromId + ':query').then((res) => {
      backInline_keyboard.inline_keyboard[0][0].switch_inline_query = res;
      bot.sendMessage(fromId, 'Tap this' + '\u{1F447}' + 'button for Inline mode.', {
