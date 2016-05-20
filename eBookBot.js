@@ -193,7 +193,7 @@ bot.onText(/Deutsch/, function(msg, match) {
  });
  redis.get(fromId + ':query').then((res) => {
   backInline_keyboard.inline_keyboard[0][0].switch_inline_query = res;
-  bot.sendMessage(fromId, 'Tap this' + '\u{1F447}' + 'button', {
+  bot.sendMessage(fromId, 'Tap this' + '\u{1F447}' + 'button for Inline mode.', {
    reply_markup: backInline_keyboard
   });
  });
@@ -224,7 +224,7 @@ bot.onText(/Español/, function(msg, match) {
  });
  redis.get(fromId + ':query').then((res) => {
   backInline_keyboard.inline_keyboard[0][0].switch_inline_query = res;
-  bot.sendMessage(fromId, 'Tap this' + '\u{1F447}' + 'button.', {
+  bot.sendMessage(fromId, 'Tap this' + '\u{1F447}' + 'button for Inline mode.', {
    reply_markup: backInline_keyboard
   });
  });
@@ -240,7 +240,7 @@ bot.onText(/Français/, function(msg, match) {
  });
  redis.get(fromId + ':query').then((res) => {
   backInline_keyboard.inline_keyboard[0][0].switch_inline_query = res;
-  bot.sendMessage(fromId, 'Tap this' + '\u{1F447}' + 'button.', {
+  bot.sendMessage(fromId, 'Tap this' + '\u{1F447}' + 'button for Inline mode.', {
    reply_markup: backInline_keyboard
   });
  });
@@ -256,7 +256,7 @@ bot.onText(/Italiano/, function(msg, match) {
  });
  redis.get(fromId + ':query').then((res) => {
   backInline_keyboard.inline_keyboard[0][0].switch_inline_query = res;
-  bot.sendMessage(fromId, 'Tap this' + '\u{1F447}' + 'button.', {
+  bot.sendMessage(fromId, 'Tap this' + '\u{1F447}' + 'button for Inline mode.', {
    reply_markup: backInline_keyboard
   });
  });
@@ -270,7 +270,7 @@ bot.onText(/Cancel/, function(msg, match) {
  });
  redis.get(fromId + ':query').then((res) => {
   backInline_keyboard.inline_keyboard[0][0].switch_inline_query = res;
-  bot.sendMessage(fromId, 'Tap this' + '\u{1F447}' + 'button.', {
+  bot.sendMessage(fromId, 'Tap this' + '\u{1F447}' + 'button for Inline mode.', {
    reply_markup: backInline_keyboard
   });
  });
