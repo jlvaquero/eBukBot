@@ -178,12 +178,12 @@ bot.onText(/Go to Inline mode/, function(msg, match) {
 
 bot.onText(/\/help/, function(msg, match) {
  var fromId = msg.from.id;
- bot.sendMessage(fromId, 'Of course. I am going to explain avaiable options to you.\r\n\u{1F4DA} Select eBook catalog language - Select the language for the eBook you are looking for.\r\n\u{1F50D} Go to Inline mode - Select or return to a chat and use my Inline mode.\r\n\u{2753} Help me! - I will explain avaiable options.\r\n\r\nWhat do you wish to do?');
+ bot.sendMessage(fromId, 'Of course. I am going to explain available options to you.\r\n\u{1F4DA} Select eBook catalog language - Select the language for the eBook you are looking for.\r\n\u{1F50D} Go to Inline mode - Select or return to a chat and use my Inline mode.\r\n\u{2753} Help me! - I will explain available options.\r\n\r\nWhat do you wish to do?');
 });
 
 bot.onText(/Help me!/, function(msg, match) {
  var fromId = msg.from.id;
- bot.sendMessage(fromId, 'Of course. I am going to explain avaiable options to you.\r\n\u{1F4DA} Select eBook catalog language - Select the language for the eBook you are looking for.\r\n\u{1F50D} Go to Inline mode - Select or return to a chat and use my Inline mode.\r\n\u{2753} Help me! - I will explain your options.\r\n\r\nWhat do you wish to do?');
+ bot.sendMessage(fromId, 'Of course. I am going to explain available options to you.\r\n\u{1F4DA} Select eBook catalog language - Select the language for the eBook you are looking for.\r\n\u{1F50D} Go to Inline mode - Select or return to a chat and use my Inline mode.\r\n\u{2753} Help me! - I will explain your options.\r\n\r\nWhat do you wish to do?');
 });
 
 bot.onText(/Deutsch/, function(msg, match) {
