@@ -120,6 +120,7 @@ bot.on('inline_query', function(msg) {
 });
 
 bot.onText(/\/start$/, function(msg, match) {
+	var comeFromInline= false;
  var fromId = msg.from.id;
  redis.set(fromId + ':query', '');
  bot.sendMessage(fromId, 'Hello ' + msg.from.first_name + '. What do you wish to do?', {
@@ -202,6 +203,7 @@ bot.onText(/Deutsch/, function(msg, match) {
   });
  });
  redis.set(fromId + ':query', '');
+ comeFromInline = false;
 }
 });
 
@@ -220,6 +222,7 @@ bot.onText(/English/, function(msg, match) {
   });
  });
  redis.set(fromId + ':query', '');
+ comeFromInline = false;
  }
 });
 
@@ -238,6 +241,7 @@ bot.onText(/Español/, function(msg, match) {
   });
  });
  redis.set(fromId + ':query', '');
+ comeFromInline = false;
  }
 });
 
@@ -256,6 +260,7 @@ bot.onText(/Français/, function(msg, match) {
   });
  });
  redis.set(fromId + ':query', '');
+ comeFromInline = false;
  }
 });
 
@@ -274,6 +279,7 @@ bot.onText(/Italiano/, function(msg, match) {
   });
  });
  redis.set(fromId + ':query', '');
+ comeFromInline = false;
  }
 });
 
@@ -290,6 +296,7 @@ bot.onText(/Cancel/, function(msg, match) {
   });
  });
  redis.set(fromId + ':query', '');
+ comeFromInline = false;
  }
 });
 
