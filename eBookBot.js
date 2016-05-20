@@ -49,12 +49,12 @@ var langReplyKeyboardMarkup = [
  []
 ];
 
-langReplyKeyboardMarkup[0][0] = 'Deutsch';
-langReplyKeyboardMarkup[0][1] = 'English';
-langReplyKeyboardMarkup[1][0] = 'Español';
-langReplyKeyboardMarkup[1][1] = 'Français';
-langReplyKeyboardMarkup[2][0] = 'Italiano';
-langReplyKeyboardMarkup[2][1] = 'Cancel';
+langReplyKeyboardMarkup[0][0] = '\u{1F1E9} Deutsch';
+langReplyKeyboardMarkup[0][1] = '\u{1F1EC} English';
+langReplyKeyboardMarkup[1][0] = '\u{1F1EA} Español';
+langReplyKeyboardMarkup[1][1] = '\u{1F1F2} Français';
+langReplyKeyboardMarkup[2][0] = '\u{1F1EE} Italiano';
+langReplyKeyboardMarkup[2][1] = '\u{274E} Cancel';
 var langReplyKeyboard = {
  keyboard: langReplyKeyboardMarkup,
  resize_keyboard: true,
