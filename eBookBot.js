@@ -62,9 +62,9 @@ var optionsReplyKeyboardMarkup = [
  []
 ];
 
-optionsReplyKeyboardMarkup[0][0] = 'Select eBook catalog language';
-optionsReplyKeyboardMarkup[1][0] = 'Go to Inline mode';
-optionsReplyKeyboardMarkup[1][1] = 'Help me!';
+optionsReplyKeyboardMarkup[0][0] = '\u{1F4DA} Select eBook catalog language';
+optionsReplyKeyboardMarkup[1][0] = '\u{1F50D} Go to Inline mode';
+optionsReplyKeyboardMarkup[1][1] = '\u{2753} Help me!';
 var optionsReplyKeyboard = {
  keyboard: optionsReplyKeyboardMarkup,
  resize_keyboard: true,
@@ -139,7 +139,7 @@ bot.onText(/\/changelang/, function(msg, match) {
  });
 });
 
-bot.onText(/\Select eBook catalog language/, function(msg, match) {
+bot.onText(/Select eBook catalog language/, function(msg, match) {
  var fromId = msg.from.id;
  //read lang preference to display message using msg.from.id from redis
  bot.sendMessage(fromId, 'Please select your language preference.', {
@@ -157,7 +157,7 @@ bot.onText(/\/gotoinline/, function(msg, match) {
  });
 });
 
-bot.onText(/\Go to Inline mode/, function(msg, match) {
+bot.onText(/Go to Inline mode/, function(msg, match) {
  var fromId = msg.from.id;
  redis.get(fromId + ':query').then((res) => {
   backInline_keyboard.inline_keyboard[0][0].switch_inline_query = res;
@@ -172,7 +172,7 @@ bot.onText(/\/help/, function(msg, match) {
  bot.sendMessage(fromId, 'Of course. I will explain your options.\r\n\u{1F4DA} Select eBook catalog language - Select the language for the eBook you are looking for.\r\n\u{1F50D} Go to Inline mode - Select or return to a chat and use my Inline mode.\r\n\u{2753} Help me! - I will explain your options.');
 });
 
-bot.onText(/\Help me!/, function(msg, match) {
+bot.onText(/Help me!/, function(msg, match) {
  var fromId = msg.from.id;
  bot.sendMessage(fromId, 'Of course. I will explain your options.\r\n\u{1F4DA} Select eBook catalog language - Select the language for the eBook you are looking for.\r\n\u{1F50D} Go to Inline mode - Select or return to a chat and use my Inline mode.\r\n\u{2753} Help me! - I will explain your options.');
 });
@@ -415,3 +415,4 @@ function buildResponse(feed) {
  return res;
 
 }
+
