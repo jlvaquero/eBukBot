@@ -50,7 +50,7 @@ var langReplyKeyboardMarkup = [
 ];
 
 langReplyKeyboardMarkup[0][0] = '\u{1F1E9} Deutsch';
-langReplyKeyboardMarkup[0][1] = '\u{1F1EC} English';
+langReplyKeyboardMarkup[0][1] = '\u{1F1E7} English';
 langReplyKeyboardMarkup[1][0] = '\u{1F1EA} Español';
 langReplyKeyboardMarkup[1][1] = '\u{1F1F2} Français';
 langReplyKeyboardMarkup[2][0] = '\u{1F1EE} Italiano';
