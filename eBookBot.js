@@ -188,7 +188,7 @@ bot.onText(/Deutsch/, function(msg, match) {
  var fromId = msg.from.id;
  //store lang preference and msg.from.id in redis
  redis.set(fromId, de);
- bot.sendMessage(fromId, 'Good!. I will search eBooks in Deutsch.', {
+ bot.sendMessage(fromId, 'Good! I will search eBooks in Deutsch.', {
   reply_markup: optionsReplyKeyboard
  });
  redis.get(fromId + ':query').then((res) => {
@@ -203,7 +203,7 @@ bot.onText(/English/, function(msg, match) {
  var fromId = msg.from.id;
  //store lang preference and chat.id in redis
  redis.set(fromId, en);
- bot.sendMessage(fromId, 'Good!. I will search eBooks in English.', {
+ bot.sendMessage(fromId, 'Good! I will search eBooks in English.', {
   reply_markup: optionsReplyKeyboard
  });
  redis.get(fromId + ':query').then((res) => {
@@ -219,7 +219,7 @@ bot.onText(/Español/, function(msg, match) {
  var fromId = msg.from.id;
  //store lang preference and chat.id in redis
  redis.set(fromId, es);
- bot.sendMessage(fromId, 'Good!. I will search eBooks in Español.', {
+ bot.sendMessage(fromId, 'Good! I will search eBooks in Español.', {
   reply_markup: optionsReplyKeyboard
  });
  redis.get(fromId + ':query').then((res) => {
@@ -235,7 +235,7 @@ bot.onText(/Français/, function(msg, match) {
  var fromId = msg.from.id;
  //store lang preference and chat.id in redis
  redis.set(fromId, fr);
- bot.sendMessage(fromId, 'Good!. I will search eBooks in Français.', {
+ bot.sendMessage(fromId, 'Good! I will search eBooks in Français.', {
   reply_markup: optionsReplyKeyboard
  });
  redis.get(fromId + ':query').then((res) => {
@@ -251,7 +251,7 @@ bot.onText(/Italiano/, function(msg, match) {
  var fromId = msg.from.id;
  //store lang preference and chat.id in redis
  redis.set(fromId, it);
- bot.sendMessage(fromId, 'Good!. I will search eBooks in Italiano.', {
+ bot.sendMessage(fromId, 'Good! I will search eBooks in Italiano.', {
   reply_markup: optionsReplyKeyboard
  });
  redis.get(fromId + ':query').then((res) => {
