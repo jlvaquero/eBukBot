@@ -34,6 +34,13 @@ const fr = 'fr';
 const de = 'de';
 const es = 'es';
 
+var langArray = [];
+langArray['en'] = 'English';
+langArray['it'] = 'Italiano';
+langArray['fr'] = 'Français';
+langArray['de'] = 'Deutsch';
+langArray['es'] = 'Español';
+
 var langReplyKeyboardMarkup = [
  [],
  [],
@@ -125,7 +132,7 @@ bot.onText(/\/start (.+)/, function(msg, match) {
 
  if (command == 'changelang') {
   redis.set(fromId + ':query', query);
-  bot.sendMessage(fromId, 'Please select your language preference.', {
+  bot.sendMessage(fromId, 'Ok, Tell me in which language do you want to search eBooks, please.', {
    reply_markup: langReplyKeyboard
   });
  }
@@ -134,7 +141,7 @@ bot.onText(/\/start (.+)/, function(msg, match) {
 bot.onText(/\/changelang/, function(msg, match) {
  var fromId = msg.from.id;
  //read lang preference to display message using msg.from.id from redis
- bot.sendMessage(fromId, 'Please select your language preference.', {
+ bot.sendMessage(fromId, 'Ok, Tell me in which language do you want to search eBooks, please.', {
   reply_markup: langReplyKeyboard
  });
 });
@@ -142,7 +149,7 @@ bot.onText(/\/changelang/, function(msg, match) {
 bot.onText(/Select eBook catalog language/, function(msg, match) {
  var fromId = msg.from.id;
  //read lang preference to display message using msg.from.id from redis
- bot.sendMessage(fromId, 'Please select your language preference.', {
+ bot.sendMessage(fromId, 'Ok, Tell me in which language do you want to search eBooks, please.', {
   reply_markup: langReplyKeyboard
  });
 });
@@ -181,7 +188,7 @@ bot.onText(/Deutsch/, function(msg, match) {
  var fromId = msg.from.id;
  //store lang preference and msg.from.id in redis
  redis.set(fromId, de);
- bot.sendMessage(fromId, 'Language preference changed to Deutsch', {
+ bot.sendMessage(fromId, 'Good!. I will search eBooks in Deutsch.', {
   reply_markup: optionsReplyKeyboard
  });
  redis.get(fromId + ':query').then((res) => {
@@ -196,7 +203,7 @@ bot.onText(/English/, function(msg, match) {
  var fromId = msg.from.id;
  //store lang preference and chat.id in redis
  redis.set(fromId, en);
- bot.sendMessage(fromId, 'Language preference changed to English', {
+ bot.sendMessage(fromId, 'Good!. I will search eBooks in English.', {
   reply_markup: optionsReplyKeyboard
  });
  redis.get(fromId + ':query').then((res) => {
@@ -212,7 +219,7 @@ bot.onText(/Español/, function(msg, match) {
  var fromId = msg.from.id;
  //store lang preference and chat.id in redis
  redis.set(fromId, es);
- bot.sendMessage(fromId, 'Language preference changed to Español', {
+ bot.sendMessage(fromId, 'Good!. I will search eBooks in Español.', {
   reply_markup: optionsReplyKeyboard
  });
  redis.get(fromId + ':query').then((res) => {
@@ -228,7 +235,7 @@ bot.onText(/Français/, function(msg, match) {
  var fromId = msg.from.id;
  //store lang preference and chat.id in redis
  redis.set(fromId, fr);
- bot.sendMessage(fromId, 'Language preference changed to Français', {
+ bot.sendMessage(fromId, 'Good!. I will search eBooks in Français.', {
   reply_markup: optionsReplyKeyboard
  });
  redis.get(fromId + ':query').then((res) => {
@@ -244,7 +251,7 @@ bot.onText(/Italiano/, function(msg, match) {
  var fromId = msg.from.id;
  //store lang preference and chat.id in redis
  redis.set(fromId, it);
- bot.sendMessage(fromId, 'Language preference changed to Italiano', {
+ bot.sendMessage(fromId, 'Good!. I will search eBooks in Italiano.', {
   reply_markup: optionsReplyKeyboard
  });
  redis.get(fromId + ':query').then((res) => {
@@ -258,7 +265,7 @@ bot.onText(/Italiano/, function(msg, match) {
 
 bot.onText(/Cancel/, function(msg, match) {
  var fromId = msg.from.id;
- bot.sendMessage(fromId, 'Language selection canceled.', {
+ bot.sendMessage(fromId, 'Ok, I will not change your language preference. Anything else?' , {
   reply_markup: optionsReplyKeyboard
  });
  redis.get(fromId + ':query').then((res) => {
