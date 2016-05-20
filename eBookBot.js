@@ -54,6 +54,23 @@ var langReplyKeyboard = {
  one_time_keyboard: true
 };
 
+var optionsReplyKeyboardMarkup = [
+ [],
+ [],
+ [],
+ [],
+ []
+];
+
+optionsReplyKeyboardMarkup[0][0] = 'Select eBook catalog language';
+optionsReplyKeyboardMarkup[1][0] = 'Go to Inline mode';
+optionsReplyKeyboardMarkup[1][1] = 'Help me!';
+var optionsReplyKeyboard = {
+ keyboard: optionsReplyKeyboardMarkup,
+ resize_keyboard: true,
+ one_time_keyboard: false
+};
+
 var backInline_keyboardMarkup = [
  []
 ];
@@ -96,7 +113,9 @@ bot.on('inline_query', function(msg) {
 bot.onText(/\/start$/, function(msg, match) {
  var fromId = msg.from.id;
  redis.set(fromId + ':query', '');
- bot.sendMessage(fromId, 'Send me commands to change your settings preferences for inline queries.\r\nAvailable commands are:\r\n\r\n/changelang - Change language preference.\r\n\/gotoinline - Go to inline mode.\r\n\/help - Show this message.');
+ bot.sendMessage(fromId, 'Hello ' + msg.from.first_name + '. What do you wish to do?', {
+  reply_markup: optionsReplyKeyboard
+ });
 });
 
 bot.onText(/\/start (.+)/, function(msg, match) {
@@ -120,7 +139,25 @@ bot.onText(/\/changelang/, function(msg, match) {
  });
 });
 
+bot.onText(/\Select eBook catalog language/, function(msg, match) {
+ var fromId = msg.from.id;
+ //read lang preference to display message using msg.from.id from redis
+ bot.sendMessage(fromId, 'Please select your language preference.', {
+  reply_markup: langReplyKeyboard
+ });
+});
+
 bot.onText(/\/gotoinline/, function(msg, match) {
+ var fromId = msg.from.id;
+ redis.get(fromId + ':query').then((res) => {
+  backInline_keyboard.inline_keyboard[0][0].switch_inline_query = res;
+  bot.sendMessage(fromId, 'Tap this' + '\u{1F447}' + 'button.', {
+   reply_markup: backInline_keyboard
+  });
+ });
+});
+
+bot.onText(/\Go to Inline mode/, function(msg, match) {
  var fromId = msg.from.id;
  redis.get(fromId + ':query').then((res) => {
   backInline_keyboard.inline_keyboard[0][0].switch_inline_query = res;
@@ -132,17 +169,20 @@ bot.onText(/\/gotoinline/, function(msg, match) {
 
 bot.onText(/\/help/, function(msg, match) {
  var fromId = msg.from.id;
- bot.sendMessage(fromId, 'Send me commands to change your settings preferences for inline queries.\r\nAvailable commands are:\r\n\r\n/changelang - Change language preference.\r\n\/gotoinline - Go to inline mode.\r\n\/help - Show this message.');
+ bot.sendMessage(fromId, 'Of course. I will explain your options.\r\n\u{1F4DA} Select eBook catalog language - Select the language for the eBook you are looking for.\r\n\u{1F50D} Go to Inline mode - Select or return to a chat and use my Inline mode.\r\n\u{2753} Help me! - I will explain your options.');
 });
 
-bot.onText(/\Deutsch/, function(msg, match) {
+bot.onText(/\Help me!/, function(msg, match) {
+ var fromId = msg.from.id;
+ bot.sendMessage(fromId, 'Of course. I will explain your options.\r\n\u{1F4DA} Select eBook catalog language - Select the language for the eBook you are looking for.\r\n\u{1F50D} Go to Inline mode - Select or return to a chat and use my Inline mode.\r\n\u{2753} Help me! - I will explain your options.');
+});
+
+bot.onText(/Deutsch/, function(msg, match) {
  var fromId = msg.from.id;
  //store lang preference and msg.from.id in redis
  redis.set(fromId, de);
  bot.sendMessage(fromId, 'Language preference changed to Deutsch', {
-  reply_markup: {
-   hide_keyboard: true
-  }
+  reply_markup: optionsReplyKeyboard
  });
  redis.get(fromId + ':query').then((res) => {
   backInline_keyboard.inline_keyboard[0][0].switch_inline_query = res;
@@ -152,14 +192,12 @@ bot.onText(/\Deutsch/, function(msg, match) {
  });
 });
 
-bot.onText(/\English/, function(msg, match) {
+bot.onText(/English/, function(msg, match) {
  var fromId = msg.from.id;
  //store lang preference and chat.id in redis
  redis.set(fromId, en);
  bot.sendMessage(fromId, 'Language preference changed to English', {
-  reply_markup: {
-   hide_keyboard: true
-  }
+  reply_markup: optionsReplyKeyboard
  });
  redis.get(fromId + ':query').then((res) => {
   backInline_keyboard.inline_keyboard[0][0].switch_inline_query = res;
@@ -170,14 +208,12 @@ bot.onText(/\English/, function(msg, match) {
  redis.set(fromId + ':query', '');
 });
 
-bot.onText(/\Español/, function(msg, match) {
+bot.onText(/Español/, function(msg, match) {
  var fromId = msg.from.id;
  //store lang preference and chat.id in redis
  redis.set(fromId, es);
  bot.sendMessage(fromId, 'Language preference changed to Español', {
-  reply_markup: {
-   hide_keyboard: true
-  }
+  reply_markup: optionsReplyKeyboard
  });
  redis.get(fromId + ':query').then((res) => {
   backInline_keyboard.inline_keyboard[0][0].switch_inline_query = res;
@@ -185,18 +221,15 @@ bot.onText(/\Español/, function(msg, match) {
    reply_markup: backInline_keyboard
   });
  });
-  redis.set(fromId + ':query', '');
+ redis.set(fromId + ':query', '');
 });
 
-bot.onText(/\Français/, function(msg, match) {
+bot.onText(/Français/, function(msg, match) {
  var fromId = msg.from.id;
  //store lang preference and chat.id in redis
  redis.set(fromId, fr);
  bot.sendMessage(fromId, 'Language preference changed to Français', {
-
-  reply_markup: {
-   hide_keyboard: true
-  }
+  reply_markup: optionsReplyKeyboard
  });
  redis.get(fromId + ':query').then((res) => {
   backInline_keyboard.inline_keyboard[0][0].switch_inline_query = res;
@@ -204,17 +237,15 @@ bot.onText(/\Français/, function(msg, match) {
    reply_markup: backInline_keyboard
   });
  });
-  redis.set(fromId + ':query', '');
+ redis.set(fromId + ':query', '');
 });
 
-bot.onText(/\Italiano/, function(msg, match) {
+bot.onText(/Italiano/, function(msg, match) {
  var fromId = msg.from.id;
  //store lang preference and chat.id in redis
  redis.set(fromId, it);
  bot.sendMessage(fromId, 'Language preference changed to Italiano', {
-  reply_markup: {
-   hide_keyboard: true
-  }
+  reply_markup: optionsReplyKeyboard
  });
  redis.get(fromId + ':query').then((res) => {
   backInline_keyboard.inline_keyboard[0][0].switch_inline_query = res;
@@ -222,15 +253,13 @@ bot.onText(/\Italiano/, function(msg, match) {
    reply_markup: backInline_keyboard
   });
  });
-  redis.set(fromId + ':query', '');
+ redis.set(fromId + ':query', '');
 });
 
-bot.onText(/\Cancel/, function(msg, match) {
+bot.onText(/Cancel/, function(msg, match) {
  var fromId = msg.from.id;
  bot.sendMessage(fromId, 'Language selection canceled.', {
-  reply_markup: {
-   hide_keyboard: true
-  }
+  reply_markup: optionsReplyKeyboard
  });
  redis.get(fromId + ':query').then((res) => {
   backInline_keyboard.inline_keyboard[0][0].switch_inline_query = res;
@@ -238,7 +267,7 @@ bot.onText(/\Cancel/, function(msg, match) {
    reply_markup: backInline_keyboard
   });
  });
-  redis.set(fromId + ':query', '');
+ redis.set(fromId + ':query', '');
 });
 
 function SendDefaultResult(msg, lang) {
