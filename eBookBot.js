@@ -443,6 +443,7 @@ function buildResponse(feed) {
    type: 'article',
    id: entry.id,
    title: entry.title,
+    description: 'by ' + getAutors(entry.authors),
    input_message_content: content,
    reply_markup: inkeyboard,
    url: entry.links.find(l => l.rel === 'alternate').href,
@@ -451,6 +452,14 @@ function buildResponse(feed) {
   });
  }
 
+function getAutors(authors){
+  var authString = authors[0].name;
+  for (var i = 1; i < authors.length; i++) {
+   authString = authString + ', ' + authors[i].name;
+  }
+  return authString;
+ }
+ 
  feed.entries.forEach(buildEntryResponse);
  return res;
 
