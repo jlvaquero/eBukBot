@@ -420,21 +420,30 @@ function buildResponse(feed) {
    []
   ];
 
+   var epubLink = entry.links.find(l => l.type === 'application/epub+zip');
+  var kindleLink = entry.links.find(l => l.type === 'application/x-mobipocket-ebook');
+  var pdfLink = entry.links.find(l => l.type === 'application/pdf');
+  
+  if (epubLink){
   keyboardArr[0][0] = {
    text: 'EPUB',
-   url: entry.links.find(l => l.type === 'application/epub+zip').href
+   url: epubLink.href
   };
+  }
 
+if(kindleLink){
   keyboardArr[0][1] = {
    text: 'Kindle',
-   url: entry.links.find(l => l.type === 'application/x-mobipocket-ebook').href
+   url: kindleLink.href
   };
+}
 
+if (pdfLink){
   keyboardArr[0][2] = {
    text: 'PDF',
-   url: entry.links.find(l => l.type === 'application/pdf').href
+   url: pdfLink.href
   };
-
+}
   var inkeyboard = {
    inline_keyboard: keyboardArr
   };
