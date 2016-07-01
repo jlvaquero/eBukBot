@@ -132,8 +132,8 @@ bot.onText(/\/start (.+)/, function(msg, match) {
  var query = match[1].split('#')[1];
 
  if (command == 'changelang') {
- redis.set(fromId + ':comeFromInline', 'true');
-  redis.set(fromId + ':query', query);
+ redis.set(fromId + ':comeFromInline', 'true', 'EX', 300);
+  redis.set(fromId + ':query', query,'EX', 300);
   bot.sendMessage(fromId, 'Ok, Tell me in which language do you want to search eBooks, please.', {
    reply_markup: langReplyKeyboard
   });
@@ -319,7 +319,7 @@ function SendDefaultResult(msg, lang) {
     var res = buildResponse(result);
     var offsetLink = result.links.find(l => l.rel === 'next');
     res.next_offset = ((offsetLink != undefined) ? offsetLink.href.split('?')[1] : '');
-    redis.set(lang + ':' + msg.query + ':' + msg.offset, JSON.stringify(res), 'EX', 21600);
+    redis.set(lang + ':' + msg.query + ':' + msg.offset, JSON.stringify(res), 'EX', 172800);
     bot.answerInlineQuery(msg.id, res.answerInlineQuery, {
      next_offset: res.next_offset,
      cache_time: 0,
@@ -336,7 +336,7 @@ function SendDefaultResult(msg, lang) {
     var res = buildResponse(result);
     var offsetLink = result.links.find(l => l.rel === 'next');
     res.next_offset = ((offsetLink != undefined) ? offsetLink.href.split('?')[1] : '');
-    redis.set(lang + ':' + msg.query + ':' + msg.offset, JSON.stringify(res), 'EX', 21600);
+    redis.set(lang + ':' + msg.query + ':' + msg.offset, JSON.stringify(res), 'EX', 172800);
     bot.answerInlineQuery(msg.id, res.answerInlineQuery, {
      next_offset: res.next_offset,
      cache_time: 0,
@@ -359,7 +359,7 @@ function SendQueryResult(msg, lang) {
     var res = buildResponse(result);
     var offsetLink = result.links.find(l => l.rel === 'next');
     res.next_offset = ((offsetLink != undefined) ? offsetLink.href.split('?')[1] : '');
-    redis.set(lang + ':' + msg.query + ':' + msg.offset, JSON.stringify(res), 'EX', 21600);
+    redis.set(lang + ':' + msg.query + ':' + msg.offset, JSON.stringify(res), 'EX', 172800);
     bot.answerInlineQuery(msg.id, res.answerInlineQuery, {
      next_offset: res.next_offset,
      cache_time: 0,
@@ -376,7 +376,7 @@ function SendQueryResult(msg, lang) {
     var res = buildResponse(result);
     var offsetLink = result.links.find(l => l.rel === 'next');
     res.next_offset = ((offsetLink != undefined) ? offsetLink.href.split('?')[1] : '');
-    redis.set(lang + ':' + msg.query + ':' + msg.offset, JSON.stringify(res), 'EX', 21600);
+    redis.set(lang + ':' + msg.query + ':' + msg.offset, JSON.stringify(res), 'EX', 172800);
     bot.answerInlineQuery(msg.id, res.answerInlineQuery, {
      next_offset: res.next_offset,
      cache_time: 0,
