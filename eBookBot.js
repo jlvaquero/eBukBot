@@ -407,7 +407,7 @@ function buildResponse(feed) {
 
  function buildEntryResponse(entry) {
 
-  const message_text_template = '[Book details](%s)';
+  const message_text_template = 'Take a look at this book.\r\n[Book details](%s)';
 
   var content = {
    message_text: sprintf(message_text_template, entry.links.find(l => l.rel === 'alternate').href), //alternate
