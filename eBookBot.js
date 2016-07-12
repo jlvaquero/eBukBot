@@ -119,8 +119,8 @@ bot.on('inline_query', function(msg) {
 
 bot.onText(/\/start$/, function(msg, match) {
  var fromId = msg.from.id;
- redis.set(fromId + ':comeFromInline', 'false');
- redis.set(fromId + ':query', '');
+ redis.set(fromId + ':comeFromInline', 'false', 'EX', 300);
+ redis.set(fromId + ':query', '', 'EX', 300);
  bot.sendMessage(fromId, 'Hello ' + msg.from.first_name + '. What do you wish to do?', {
   reply_markup: optionsReplyKeyboard
  });
@@ -200,9 +200,9 @@ bot.onText(/Deutsch/, function(msg, match) {
      bot.sendMessage(fromId, 'Tap this' + '\u{1F447}' + 'button for Inline mode.', {
       reply_markup: backInline_keyboard
      });
-     redis.set(fromId + ':query', '');
+     redis.set(fromId + ':query', '', 'EX', 300);
     });
-    redis.set(fromId + ':comeFromInline', 'false');
+    redis.set(fromId + ':comeFromInline', 'false', 'EX', 300);
    }
  });
 });
@@ -221,9 +221,9 @@ bot.onText(/English/, function(msg, match) {
      bot.sendMessage(fromId, 'Tap this' + '\u{1F447}' + 'button for Inline mode.', {
       reply_markup: backInline_keyboard
      });
-     redis.set(fromId + ':query', '');
+     redis.set(fromId + ':query', '', 'EX', 300);
     });
-    redis.set(fromId + ':comeFromInline', 'false');
+    redis.set(fromId + ':comeFromInline', 'false', 'EX', 300);
    }
  });
 });
@@ -242,9 +242,9 @@ bot.onText(/Español/, function(msg, match) {
      bot.sendMessage(fromId, 'Tap this' + '\u{1F447}' + 'button for Inline mode.', {
       reply_markup: backInline_keyboard
      });
-     redis.set(fromId + ':query', '');
+     redis.set(fromId + ':query', '', 'EX', 300);
     });
-    redis.set(fromId + ':comeFromInline', 'false');
+    redis.set(fromId + ':comeFromInline', 'false', 'EX', 300);
    }
  });
 });
@@ -263,9 +263,9 @@ bot.onText(/Français/, function(msg, match) {
      bot.sendMessage(fromId, 'Tap this' + '\u{1F447}' + 'button for Inline mode.', {
       reply_markup: backInline_keyboard
      });
-     redis.set(fromId + ':query', '');
+     redis.set(fromId + ':query', '', 'EX', 300);
     });
-    redis.set(fromId + ':comeFromInline', 'false');
+    redis.set(fromId + ':comeFromInline', 'false', 'EX', 300);
    }
  });
 });
@@ -284,9 +284,9 @@ bot.onText(/Italiano/, function(msg, match) {
      bot.sendMessage(fromId, 'Tap this' + '\u{1F447}' + 'button for Inline mode.', {
       reply_markup: backInline_keyboard
      });
-     redis.set(fromId + ':query', '');
+     redis.set(fromId + ':query', '', 'EX', 300);
     });
-    redis.set(fromId + ':comeFromInline', 'false');
+    redis.set(fromId + ':comeFromInline', 'false', 'EX', 300);
    }
  });
 });
@@ -303,9 +303,9 @@ bot.onText(/Cancel/, function(msg, match) {
      bot.sendMessage(fromId, 'Tap this' + '\u{1F447}' + 'button for Inline mode.', {
       reply_markup: backInline_keyboard
      });
-     redis.set(fromId + ':query', '');
+     redis.set(fromId + ':query', '', 'EX', 300);
     });
-    redis.set(fromId + ':comeFromInline', 'false');
+    redis.set(fromId + ':comeFromInline', 'false', 'EX', 300);
    }
  });
 });
