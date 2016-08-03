@@ -120,7 +120,7 @@ bot.on('inline_query', function(msg) {
 bot.onText(/\/start$/, function(msg, match) {
  var fromId = msg.from.id;
  redis.set(fromId + ':comeFromInline', 'false');
- redis.set(fromId + ':query', '', 'EX', 300);
+ redis.set(fromId + ':query', '');
  bot.sendMessage(fromId, 'Hello ' + msg.from.first_name + '. What do you wish to do?', {
   reply_markup: optionsReplyKeyboard
  });
