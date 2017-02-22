@@ -7,22 +7,27 @@ var request = require('request');
 var port = process.env.OPENSHIFT_NODEJS_PORT;
 var host = process.env.OPENSHIFT_NODEJS_IP;
 var externalUrl = process.env.OPENSHIFT_APP_DNS;
-//var token = process.env.TOKEN || token;
-//var bot = new TelegramBot(token, {
-// polling: true
-//});
-var bot = new TelegramBot(token, { webHook: { port : port, host : host } });
+var token = process.env.TOKEN || token;
+/*var bot = new TelegramBot(token, {
+ polling: true
+});*/
+var bot = new TelegramBot(token, {
+ webHook: {
+  port: port,
+  host: host
+ }
+});
 bot.setWebHook(externalUrl + ':443/bot' + token);
 
 var Redis = require('ioredis');
 //var redis = new Redis(6379, process.env.IP);
 var redis = new Redis({
- port: process.env.OPENSHIFT_REDIS_DB_PORT,          // Redis port
-  host: process.env.OPENSHIFT_REDIS_DB_HOST,   // Redis host
-   password: process.env.OPENSHIFT_REDIS_DB_PASSWORD
+port: process.env.OPENSHIFT_REDIS_DB_PORT, // Redis port
+host: process.env.OPENSHIFT_REDIS_DB_HOST, // Redis host
+password: process.env.OPENSHIFT_REDIS_DB_PASSWORD
 });
 
- 
+
 
 const search_url_offset_template = 'http://www.feedbooks.com/books/search.atom?%s';
 const search_url_template = 'http://www.feedbooks.com/books/search.atom?query=%s&lang=%s';
@@ -120,7 +125,7 @@ bot.on('inline_query', function(msg) {
 bot.onText(/\/start$/, function(msg, match) {
  var fromId = msg.from.id;
  redis.set(fromId + ':comeFromInline', 'false');
- redis.set(fromId + ':query', '');
+ redis.set(fromId + ':query', '', 'EX', 300);
  bot.sendMessage(fromId, 'Hello ' + msg.from.first_name + '. What do you wish to do?', {
   reply_markup: optionsReplyKeyboard
  });
@@ -128,11 +133,11 @@ bot.onText(/\/start$/, function(msg, match) {
 
 bot.onText(/\/start (.+)/, function(msg, match) {
  var fromId = msg.from.id;
- var command = match[1].split('#')[0];
- var query = match[1].split('#')[1];
+ var command = match[1].split('-')[0];
+ var query = match[1].split('-')[1];
 
  if (command == 'changelang') {
- redis.set(fromId + ':comeFromInline', 'true');
+  redis.set(fromId + ':comeFromInline', 'true');
   redis.set(fromId + ':query', query);
   bot.sendMessage(fromId, 'Ok, Tell me in which language do you want to search eBooks, please.', {
    reply_markup: langReplyKeyboard
@@ -194,16 +199,16 @@ bot.onText(/Deutsch/, function(msg, match) {
   reply_markup: optionsReplyKeyboard
  });
  redis.get(fromId + ':comeFromInline').then((comeFromInline) => {
-   if (comeFromInline == 'true') {
-    redis.get(fromId + ':query').then((res) => {
-     backInline_keyboard.inline_keyboard[0][0].switch_inline_query = res;
-     bot.sendMessage(fromId, 'Tap this' + '\u{1F447}' + 'button for Inline mode.', {
-      reply_markup: backInline_keyboard
-     });
-     redis.set(fromId + ':query', '');
+  if (comeFromInline == 'true') {
+   redis.get(fromId + ':query').then((res) => {
+    backInline_keyboard.inline_keyboard[0][0].switch_inline_query = res;
+    bot.sendMessage(fromId, 'Tap this' + '\u{1F447}' + 'button for Inline mode.', {
+     reply_markup: backInline_keyboard
     });
-    redis.set(fromId + ':comeFromInline', 'false');
-   }
+    redis.set(fromId + ':query', '');
+   });
+   redis.set(fromId + ':comeFromInline', 'false');
+  }
  });
 });
 
@@ -214,17 +219,17 @@ bot.onText(/English/, function(msg, match) {
  bot.sendMessage(fromId, 'Ok. I will search eBooks in English. Anything else?', {
   reply_markup: optionsReplyKeyboard
  });
-  redis.get(fromId + ':comeFromInline').then((comeFromInline) => {
-   if (comeFromInline == 'true') {
-    redis.get(fromId + ':query').then((res) => {
-     backInline_keyboard.inline_keyboard[0][0].switch_inline_query = res;
-     bot.sendMessage(fromId, 'Tap this' + '\u{1F447}' + 'button for Inline mode.', {
-      reply_markup: backInline_keyboard
-     });
-     redis.set(fromId + ':query', '');
+ redis.get(fromId + ':comeFromInline').then((comeFromInline) => {
+  if (comeFromInline == 'true') {
+   redis.get(fromId + ':query').then((res) => {
+    backInline_keyboard.inline_keyboard[0][0].switch_inline_query = res;
+    bot.sendMessage(fromId, 'Tap this' + '\u{1F447}' + 'button for Inline mode.', {
+     reply_markup: backInline_keyboard
     });
-    redis.set(fromId + ':comeFromInline', 'false');
-   }
+    redis.set(fromId + ':query', '');
+   });
+   redis.set(fromId + ':comeFromInline', 'false');
+  }
  });
 });
 
@@ -236,16 +241,16 @@ bot.onText(/Español/, function(msg, match) {
   reply_markup: optionsReplyKeyboard
  });
  redis.get(fromId + ':comeFromInline').then((comeFromInline) => {
-   if (comeFromInline == 'true') {
-    redis.get(fromId + ':query').then((res) => {
-     backInline_keyboard.inline_keyboard[0][0].switch_inline_query = res;
-     bot.sendMessage(fromId, 'Tap this' + '\u{1F447}' + 'button for Inline mode.', {
-      reply_markup: backInline_keyboard
-     });
-     redis.set(fromId + ':query', '');
+  if (comeFromInline == 'true') {
+   redis.get(fromId + ':query').then((res) => {
+    backInline_keyboard.inline_keyboard[0][0].switch_inline_query = res;
+    bot.sendMessage(fromId, 'Tap this' + '\u{1F447}' + 'button for Inline mode.', {
+     reply_markup: backInline_keyboard
     });
-    redis.set(fromId + ':comeFromInline', 'false');
-   }
+    redis.set(fromId + ':query', '');
+   });
+   redis.set(fromId + ':comeFromInline', 'false');
+  }
  });
 });
 
@@ -257,16 +262,16 @@ bot.onText(/Français/, function(msg, match) {
   reply_markup: optionsReplyKeyboard
  });
  redis.get(fromId + ':comeFromInline').then((comeFromInline) => {
-   if (comeFromInline == 'true') {
-    redis.get(fromId + ':query').then((res) => {
-     backInline_keyboard.inline_keyboard[0][0].switch_inline_query = res;
-     bot.sendMessage(fromId, 'Tap this' + '\u{1F447}' + 'button for Inline mode.', {
-      reply_markup: backInline_keyboard
-     });
-     redis.set(fromId + ':query', '');
+  if (comeFromInline == 'true') {
+   redis.get(fromId + ':query').then((res) => {
+    backInline_keyboard.inline_keyboard[0][0].switch_inline_query = res;
+    bot.sendMessage(fromId, 'Tap this' + '\u{1F447}' + 'button for Inline mode.', {
+     reply_markup: backInline_keyboard
     });
-    redis.set(fromId + ':comeFromInline', 'false');
-   }
+    redis.set(fromId + ':query', '');
+   });
+   redis.set(fromId + ':comeFromInline', 'false');
+  }
  });
 });
 
@@ -278,35 +283,35 @@ bot.onText(/Italiano/, function(msg, match) {
   reply_markup: optionsReplyKeyboard
  });
  redis.get(fromId + ':comeFromInline').then((comeFromInline) => {
-   if (comeFromInline == 'true') {
-    redis.get(fromId + ':query').then((res) => {
-     backInline_keyboard.inline_keyboard[0][0].switch_inline_query = res;
-     bot.sendMessage(fromId, 'Tap this' + '\u{1F447}' + 'button for Inline mode.', {
-      reply_markup: backInline_keyboard
-     });
-     redis.set(fromId + ':query', '');
+  if (comeFromInline == 'true') {
+   redis.get(fromId + ':query').then((res) => {
+    backInline_keyboard.inline_keyboard[0][0].switch_inline_query = res;
+    bot.sendMessage(fromId, 'Tap this' + '\u{1F447}' + 'button for Inline mode.', {
+     reply_markup: backInline_keyboard
     });
-    redis.set(fromId + ':comeFromInline', 'false');
-   }
+    redis.set(fromId + ':query', '');
+   });
+   redis.set(fromId + ':comeFromInline', 'false');
+  }
  });
 });
 
 bot.onText(/Cancel/, function(msg, match) {
  var fromId = msg.from.id;
- bot.sendMessage(fromId, 'Ok, I will not change your language preference. Anything else?' , {
+ bot.sendMessage(fromId, 'Ok, I will not change your language preference. Anything else?', {
   reply_markup: optionsReplyKeyboard
  });
-  redis.get(fromId + ':comeFromInline').then((comeFromInline) => {
-   if (comeFromInline == 'true') {
-    redis.get(fromId + ':query').then((res) => {
-     backInline_keyboard.inline_keyboard[0][0].switch_inline_query = res;
-     bot.sendMessage(fromId, 'Tap this' + '\u{1F447}' + 'button for Inline mode.', {
-      reply_markup: backInline_keyboard
-     });
-     redis.set(fromId + ':query', '');
+ redis.get(fromId + ':comeFromInline').then((comeFromInline) => {
+  if (comeFromInline == 'true') {
+   redis.get(fromId + ':query').then((res) => {
+    backInline_keyboard.inline_keyboard[0][0].switch_inline_query = res;
+    bot.sendMessage(fromId, 'Tap this' + '\u{1F447}' + 'button for Inline mode.', {
+     reply_markup: backInline_keyboard
     });
-    redis.set(fromId + ':comeFromInline', 'false');
-   }
+    redis.set(fromId + ':query', '');
+   });
+   redis.set(fromId + ':comeFromInline', 'false');
+  }
  });
 });
 
@@ -324,7 +329,7 @@ function SendDefaultResult(msg, lang) {
      next_offset: res.next_offset,
      cache_time: 0,
      switch_pm_text: 'Change language preference',
-     switch_pm_parameter: 'changelang#' + msg.query
+     switch_pm_parameter: 'changelang-'.concat(msg.query)
     });
    });
   });
@@ -341,7 +346,7 @@ function SendDefaultResult(msg, lang) {
      next_offset: res.next_offset,
      cache_time: 0,
      switch_pm_text: 'Change language preference',
-     switch_pm_parameter: 'changelang#' + msg.query
+     switch_pm_parameter: 'changelang-'.concat(msg.query)
     });
    });
   });
@@ -364,7 +369,7 @@ function SendQueryResult(msg, lang) {
      next_offset: res.next_offset,
      cache_time: 0,
      switch_pm_text: 'Change language preference',
-     switch_pm_parameter: 'changelang#' + msg.query
+     switch_pm_parameter: 'changelang-'.concat(msg.query)
     });
    });
   });
@@ -381,7 +386,7 @@ function SendQueryResult(msg, lang) {
      next_offset: res.next_offset,
      cache_time: 0,
      switch_pm_text: 'Change language preference',
-     switch_pm_parameter: 'changelang#' + msg.query
+     switch_pm_parameter: 'changelang-'.concat(msg.query)
     });
    });
   });
@@ -394,7 +399,7 @@ function SendCachedResult(msg, cacheRes) {
   next_offset: res.next_offset,
   cache_time: 0,
   switch_pm_text: 'Change language preference',
-  switch_pm_parameter: 'changelang#' + msg.query
+  switch_pm_parameter: 'changelang-'.concat(msg.query)
  });
 }
 
@@ -420,30 +425,30 @@ function buildResponse(feed) {
    []
   ];
 
-   var epubLink = entry.links.find(l => l.type === 'application/epub+zip');
+  var epubLink = entry.links.find(l => l.type === 'application/epub+zip');
   var kindleLink = entry.links.find(l => l.type === 'application/x-mobipocket-ebook');
   var pdfLink = entry.links.find(l => l.type === 'application/pdf');
-  
-  if (epubLink){
-  keyboardArr[0][0] = {
-   text: 'EPUB',
-   url: epubLink.href
-  };
+
+  if (epubLink) {
+   keyboardArr[0][0] = {
+    text: 'EPUB',
+    url: epubLink.href
+   };
   }
 
-if(kindleLink){
-  keyboardArr[0][1] = {
-   text: 'Kindle',
-   url: kindleLink.href
-  };
-}
+  if (kindleLink) {
+   keyboardArr[0][1] = {
+    text: 'Kindle',
+    url: kindleLink.href
+   };
+  }
 
-if (pdfLink){
-  keyboardArr[0][2] = {
-   text: 'PDF',
-   url: pdfLink.href
-  };
-}
+  if (pdfLink) {
+   keyboardArr[0][2] = {
+    text: 'PDF',
+    url: pdfLink.href
+   };
+  }
   var inkeyboard = {
    inline_keyboard: keyboardArr
   };
@@ -452,7 +457,7 @@ if (pdfLink){
    type: 'article',
    id: entry.id,
    title: entry.title,
-    description: 'by ' + getAutors(entry.authors),
+   description: 'by ' + getAutors(entry.authors),
    input_message_content: content,
    reply_markup: inkeyboard,
    url: entry.links.find(l => l.rel === 'alternate').href,
@@ -461,16 +466,15 @@ if (pdfLink){
   });
  }
 
-function getAutors(authors){
+ function getAutors(authors) {
   var authString = authors[0].name;
   for (var i = 1; i < authors.length; i++) {
    authString = authString + ', ' + authors[i].name;
   }
   return authString;
  }
- 
+
  feed.entries.forEach(buildEntryResponse);
  return res;
 
 }
-
